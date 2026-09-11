@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayasan Sabah | Official Government Portal</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="example.css">
+    <style>
+        body {
+          background-color: #0d0f12;
+          font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        #links-scroll-section {
+          background: linear-gradient(180deg, #0d0f12 0%, #1a1d24 100%);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .scroll-container {
+          position: relative;
+          width: 100%;
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+
+        .cards-wrapper {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          gap: 1.5rem;
+          padding: 1rem 0 2rem 0;
+          scroll-behavior: smooth;
+          /* Hide scrollbar for cleaner look like the hero sections */
+          scrollbar-width: none; 
+          -ms-overflow-style: none;
+        }
+        
+        .cards-wrapper::-webkit-scrollbar {
+          display: none; 
+        }
+
+        /* 
+          ========================================
+          CARD STYLING (Matching 6-Card Theme)
+          ========================================
+        */
+        .card-horizontal {
+          background: linear-gradient(145deg, #252830 0%, #181a20 100%);
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-radius: 1rem; /* rounded-4 */
+          flex: 0 0 320px; /* Fixed width for horizontal scroll */
+          scroll-snap-align: start;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 0 1rem 3rem rgba(0,0,0,0.5) !important;
+        }
+
+        .card-horizontal:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.7) !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .card-horizontal img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          opacity: 0.85;
+          transition: opacity 0.3s ease;
+        }
+
+        .card-horizontal:hover img {
+          opacity: 1;
+        }
+
+        .card-body-custom {
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          justify-content: space-between;
+        }
+
+        /* Base Dark Card Styling & Transition */
+      .announcement-card-dark {
+        background: linear-gradient(145deg, #252830 0%, #181a20 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                    box-shadow 0.35s ease, 
+                    border-color 0.35s ease;
+        cursor: pointer;
+      }
+
+      /* Hover Elevation & Border Highlight */
+      .announcement-card-dark:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.75) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+      }
+
+      /* Image Smooth Zoom on Hover */
+      .announcement-card-dark img {
+        transition: transform 0.5s ease, opacity 0.3s ease;
+      }
+
+      .announcement-card-dark:hover img {
+        transform: scale(1.06);
+        opacity: 0.95 !important;
+      }
+
+      /* Card Button Hover Highlight */
+      .announcement-card-dark:hover .btn-card-action {
+        background-color: #252830 !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        color: #ffffff !important;
+      }
+
+        /* 
+          ========================================
+          NAVIGATION ARROWS
+          ========================================
+        */
+        .scroll-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: #000;
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          color: #fff;
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.5);
+          transition: all 0.3s ease;
+          z-index: 20;
+        }
+
+        .scroll-btn:hover {
+          background-color: #252830;
+          border-color: rgba(255,255,255,0.4);
+        }
+
+        .scroll-btn.left { left: 5px; }
+        .scroll-btn.right { right: 5px; }
+
+        @media (max-width: 767.98px) {
+          .scroll-btn { display: none; }
+          .cards-wrapper { padding-left: 15px; padding-right: 15px; }
+        }
+
+        /* 6 CARD HERO SECTION */
+        /* Card Elevation & Border Highlight on Hover */
+        .hero-card-dark:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.75) !important;
+          border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* Icon Circle Zoom Effect */
+        .hero-card-dark .card-icon-wrapper {
+          transition: transform 0.35s ease, background-color 0.3s ease;
+        }
+
+        .hero-card-dark:hover .card-icon-wrapper {
+          transform: scale(1.1);
+          background-color: rgba(13, 202, 240, 0.2) !important;
+        }
+
+        /* Button Highlight on Card Hover */
+        .hero-card-dark:hover .btn-card-action {
+          background-color: #252830 !important;
+          border-color: rgba(255, 255, 255, 0.4) !important;
+          color: #ffffff !important;
+        }
+
+        .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #0d6efd;
+        color: white;
+        padding: 8px;
+        z-index: 100;
+        transition: top 0.3s;
+        }
+        .skip-link:focus {
+        top: 0;
+        }
+
+        /* Services Section Background*/
+        .bg-services{
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255, 255, 255, 0.9)),
+                        url('https://img.freepik.com/free-vector/watercolor-light-peach-background_23-2150268733.jpg?w=2000') center/cover no-repeat;
+        }
+
+        .bg-announcements{
+            background: linear-gradient(rgba(248,249,250,0.9), rgba(248,249,250,0.9)),
+                        url('https://img.freepik.com/free-vector/watercolor-light-peach-background_23-2150268733.jpg?w=2000') center/cover no-repeat;
+        }
+        .speech-section {
+    background: #0d0a0e;
+    color: #ffffff;
+    font-family: 'Georgia', serif;
+  }
+
+  /* Left Column Video Player */
+  .speech-video-col {
+    position: relative;
+    min-height: 450px;
+    background-color: #000000;
+    overflow: hidden;
+  }
+
+  /* Embedded Video Styling */
+  .speech-video-element {
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Right Column Background Image & Dark Overlay */
+  .speech-right-panel {
+    position: relative;
+    /* Replace with your image asset path */
+    background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Dark Overlay over the Right Panel Image for Text Readability */
+  .speech-right-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(20, 15, 22, 0.88) 0%, rgba(55, 18, 28, 0.92) 100%);
+    z-index: 1;
+  }
+
+  .speech-right-panel-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .speech-title {
+    font-family: 'Georgia', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #ffffff;
+  }
+
+  .speech-subtitle {
+    font-style: italic;
+    color: #e3d2c3;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  /* Quote box with cyan accent bar */
+  .speech-quote-box {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: 4px solid #00b4d8 !important;
+    padding: 1.75rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    backdrop-filter: blur(8px);
+  }
+
+  .speech-quote-text {
+    font-style: italic;
+    color: #f7ede2;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .speech-attribution {
+    color: #cbab90;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Show More Button */
+  .btn-speech-more {
+    background: rgba(0, 0, 0, 0.5);
+    color: #e3d2c3;
+    border: 1px solid rgba(227, 210, 195, 0.3);
+    transition: all 0.35s ease;
+  }
+
+  .btn-speech-more:hover, 
+  .btn-speech-more:focus {
+    background: rgba(227, 210, 195, 0.2);
+    color: #ffffff;
+    border-color: #00b4d8;
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.35);
+  }
+
+  /* Video Gallery Card Styling */
+  .video-card {
+    background: rgba(20, 14, 20, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    cursor: pointer;
+  }
+
+  .video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 180, 216, 0.5);
+  }
+
+  .video-thumb-container {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+  }
+
+  .video-thumb-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, opacity 0.3s ease;
+    opacity: 0.8;
+  }
+
+  .video-card:hover .video-thumb-container img {
+    transform: scale(1.06);
+    opacity: 0.95;
+  }
+
+  .play-icon-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease;
+  }
+
+  .video-card:hover .play-icon-overlay {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .play-btn-circle {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 180, 216, 0.85);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+
+  .video-card:hover .play-btn-circle {
+    transform: scale(1.15);
+    background: #00b4d8;
+  }
+  /* Base Dark Background */
+  .related-links-section {
+    background: linear-gradient(180deg, #0e1015 0%, #161a22 100%);
+    color: #ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Orbital Container Wrapper */
+  .orbit-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Central Ambient Cyan Glow */
+  .orbit-bg-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(13, 202, 240, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* SVG Ring Line */
+  .orbit-ring-svg {
+    position: absolute;
+    width: 82%;
+    height: 82%;
+    top: 9%;
+    left: 9%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Center Content Header */
+  .orbit-center-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    max-width: 480px;
+    padding: 1rem;
+  }
+
+  .orbit-subtitle {
+    color: #0dcaf0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .orbit-title {
+    font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .orbit-description {
+    color: #9aa0a6;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* Transparent Node Anchor (No white circle, no borders) */
+  .orbit-node {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 3;
+    cursor: pointer;
+  }
+
+  /* Pure Image Styling with Ambient Drop Shadow */
+  .orbit-node-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.35s ease, filter 0.35s ease;
+  }
+
+  /* Hover Lift & Cyan Glow on the Image directly */
+  .orbit-node:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  .orbit-node:hover .orbit-node-img {
+    filter: drop-shadow(0 0 18px rgba(13, 202, 240, 0.85));
+  }
+
+  /* Desktop Radial Node Positions */
+  @media (min-width: 992px) {
+    .node-1  { top: 6%;  left: 50%; }
+    .node-2  { top: 12%; left: 67%; }
+    .node-3  { top: 26%; left: 81%; }
+    .node-4  { top: 46%; left: 87%; }
+    .node-5  { top: 68%; left: 81%; }
+    .node-6  { top: 85%; left: 64%; }
+    .node-7  { top: 88%; left: 44%; }
+    .node-8  { top: 81%; left: 26%; }
+    .node-9  { top: 62%; left: 14%; }
+    .node-10 { top: 38%; left: 13%; }
+    .node-11 { top: 17%; left: 28%; }
+  }
+
+  /* Responsive Mobile/Tablet Grid (< 992px) */
+  @media (max-width: 991.98px) {
+    .orbit-wrapper {
+      min-height: auto;
+      flex-direction: column;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    .orbit-ring-svg, .orbit-bg-glow {
+      display: none;
+    }
+
+    .orbit-center-content {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: none;
+      margin-bottom: 3rem;
+    }
+
+    .mobile-orbit-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      z-index: 3;
+    }
+
+    .orbit-node {
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      transform: none !important;
+      width: 100px;
+      height: 100px;
+    }
+
+    .orbit-node:hover {
+      transform: translateY(-5px) !important;
+    }
+  }
+
+  /* Base Dark Gradient Background */
+  .maps-hero-section {
+    background: linear-gradient(180deg, #0e1015 0%, #161a22 100%);
+    color: #ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Centered Header Wrapper */
+  .maps-header-wrapper {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .maps-subtitle {
+    color: #0dcaf0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .maps-title {
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+
+  .maps-description {
+    color: #9aa0a6;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* CTA Button Matching Cyan Accent */
+  .btn-maps-action {
+    background: #0dcaf0;
+    color: #0e1015;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 2.25rem;
+    border-radius: 50rem;
+    border: none;
+    transition: all 0.35s ease;
+    box-shadow: 0 0 20px rgba(13, 202, 240, 0.3);
+    text-decoration: none !important;
+    display: inline-block;
+  }
+
+  .btn-maps-action:hover {
+    background: #33d5f5;
+    color: #0e1015;
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(13, 202, 240, 0.6);
+  }
+
+  /* Interactive Map Frame (Dark Slate with Cyan Ambient Glow) */
+  .maps-frame-container {
+    max-width: 980px;
+    width: 100%;
+    height: 500px;
+    margin: 0 auto;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background-color: #171a22;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.75), 0 0 20px rgba(13, 202, 240, 0.2);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  .maps-frame-container:hover {
+    border-color: rgba(13, 202, 240, 0.5);
+    box-shadow: 0 1.25rem 3.5rem rgba(0, 0, 0, 0.85), 0 0 30px rgba(13, 202, 240, 0.35);
+  }
+
+  .maps-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  @media (max-width: 767.98px) {
+    .maps-frame-container {
+      height: 380px;
+      border-radius: 1rem;
+    }
+  }
+
+  /* Base Section Background */
+  .comm-hero-section {
+    background: linear-gradient(180deg, #0e1015 0%, #161a22 100%);
+    color: #ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Centered Header */
+  .comm-header-wrapper {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .comm-subtitle {
+    color: #0dcaf0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .comm-title {
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+
+  .comm-description {
+    color: #9aa0a6;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* Content Container Limits */
+  .comm-content-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* Dark Slate Card Styling */
+  .comm-card {
+    background: #181c26;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.5);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  }
+
+  .comm-card:hover {
+    border-color: rgba(13, 202, 240, 0.4);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.7), 0 0 20px rgba(13, 202, 240, 0.2);
+    transform: translateY(-3px);
+  }
+
+  /* Card Golden Serif Headings (Matches Screenshot) */
+  .comm-card-title {
+    font-family: 'Georgia', serif;
+    color: #e2b47d;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  /* Card Body Text */
+  .comm-card-text {
+    color: #c5cbda;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .comm-card-text a {
+    color: #0dcaf0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .comm-card-text a:hover {
+    color: #33d5f5;
+    text-decoration: underline;
+  }
+
+  /* Card Image Frame */
+  .comm-card-img-col {
+    position: relative;
+    min-height: 240px;
+  }
+
+  .comm-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Grid Layout for Bottom Contact Card */
+  .comm-sub-heading {
+    font-family: 'Georgia', serif;
+    color: #e2b47d;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .comm-sub-text {
+    color: #c5cbda;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .comm-card-img-col {
+      position: relative;
+      min-height: 220px;
+    }
+
+    .comm-card-img {
+      position: relative;
+      height: 220px;
+    }
+  }
+
+  .site-footer {
+    background: linear-gradient(180deg, #11141b 0%, #0a0c10 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #9aa0a6;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.85rem;
+    padding: 2.25rem 1rem 1.5rem 1rem;
+    position: relative;
+  }
+
+  /* Center Logos Flex Wrapper */
+  .footer-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Fixed Bounding Box to Force ALL External Logos to Stay Small & Uniform */
+  .footer-logo-box {
+    width: 60px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .footer-logo-img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .footer-logo-box:hover .footer-logo-img {
+    transform: translateY(-2px) scale(1.08);
+    filter: drop-shadow(0 0 8px rgba(13, 202, 240, 0.5));
+  }
+
+  /* Center Social Icons */
+  .footer-socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-social-link {
+    color: #c5cbda;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .footer-social-link svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    transition: fill 0.3s ease;
+  }
+
+  .footer-social-link:hover {
+    color: #0dcaf0;
+    background: rgba(13, 202, 240, 0.1);
+    border-color: rgba(13, 202, 240, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(13, 202, 240, 0.3);
+  }
+
+  /* Footer Centered Links & Metadata */
+  .footer-info {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .footer-copyright {
+    color: #d1d5db;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+
+  .footer-nav-links {
+    margin-bottom: 0.35rem;
+  }
+
+  .footer-nav-links a {
+    color: #9aa0a6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-nav-links a:hover {
+    color: #0dcaf0;
+    text-decoration: underline;
+  }
+
+  .footer-nav-separator {
+    color: #4b5563;
+    margin: 0 0.4rem;
+  }
+
+  .footer-meta-text {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+
+  /* Smooth page scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px; /* Offset so header doesn't cover section titles */
+}
+
+/* Glassmorphism Blur Header */
+.backdrop-blur {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Active Link Glow Effect when scrolling through sections */
+.navbar-nav .nav-link.active {
+  color: #0dcaf0 !important; /* Vibrant Cyan matching hero design */
+  font-weight: 700 !important;
+  border-bottom: 2px solid #0dcaf0;
+}
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#fineoNavbar" data-bs-smooth-scroll="true" tabindex="0" class="bg-light text-dark">
+
+    <!--Skip to Main Content Link-->
+    <a class="skip-link text-decoration-none rounded-bottom" href="#main">Skip to main content</a>
+    
+    <!-- Combined Header & Hero Container -->
+    <div class="position-relative overflow-hidden text-white bg-black min-vh-100 d-flex flex-column">
+    
+    <!-- 1. Background Video -->
+    <video autoplay muted loop playsinline class="position-absolute top-50 start-50 translate-middle w-100 h-100 object-fit-cover z-0 opacity-25">
+        <source src="https://yayasansabahgroup.org.my/assets/video/YSG-intro-720p.mp4?v=1.0" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- 2. Dark Gradient Overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-50 z-1"></div>
+
+  <!-- Full-Width Semi-Transparent Black Rectangular Navbar -->
+  <!-- Added sticky-top top-0 to keep the header fixed while scrolling -->
+<header class="fixed-top z-3 w-100">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black bg-opacity-50 backdrop-blur border-bottom border-white border-opacity-10 py-3 px-3 px-xl-5">
+    <div class="container-fluid">
+      
+      <!-- Brand Logo & Name (Left) -->
+      <a class="navbar-brand d-flex align-items-center gap-2 text-white fw-bold fs-5 tracking-tight flex-shrink-0" href="#home">
+        <img src="https://sabiis.sabah.gov.my/sites/default/files/inline-images/yayasan-sabah-logo.jpg" alt="Yayasan Sabah Logo" width="34" height="34" class="rounded-circle d-inline-block align-text-top">
+        <span class="d-none d-sm-inline">Kumpulan Yayasan Sabah</span>
+      </a>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#fineoNavbar" aria-controls="fineoNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Centered Links & Right Action Items -->
+      <div class="collapse navbar-collapse" id="fineoNavbar">
+        
+        <!-- Navigation Links (ScrollSpy active tracking) -->
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2 gap-xl-3 text-center align-items-center fs-6">
+          
+          <!-- HOME -->
+          <li class="nav-item">
+            <a class="nav-link text-white-50 fw-medium px-2 text-uppercase text-nowrap active" href="#home">Home</a>
+          </li>
+
+          <!-- ABOUT (Dropdown) -->
+          <li class="nav-item dropdown">
+            <a class="nav-link text-white-50 fw-medium px-2 dropdown-toggle text-uppercase text-nowrap" href="#about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              About
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary">
+              <li><a class="dropdown-item" href="#corporate-info">Corporate Info</a></li>
+              <li><a class="dropdown-item" href="#management">Management</a></li>
+              <li><a class="dropdown-item" href="#history">History</a></li>
+            </ul>
+          </li>
+
+          <!-- ACTIVITIES (Dropdown) -->
+          <li class="nav-item dropdown">
+            <a class="nav-link text-white-50 fw-medium px-2 dropdown-toggle text-uppercase text-nowrap" href="#activities" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Activities
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary">
+              <li><a class="dropdown-item" href="#education">Education</a></li>
+              <li><a class="dropdown-item" href="#conservation">Conservation</a></li>
+              <li><a class="dropdown-item" href="#commercial">Commercial</a></li>
+            </ul>
+          </li>
+
+          <!-- DIRECTORY (Dropdown) -->
+          <li class="nav-item dropdown">
+            <a class="nav-link text-white-50 fw-medium px-2 dropdown-toggle text-uppercase text-nowrap" href="#directory" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Directory
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary">
+              <li><a class="dropdown-item" href="#staff-directory">Staff Directory</a></li>
+              <li><a class="dropdown-item" href="#zone-offices">Zone Offices</a></li>
+            </ul>
+          </li>
+
+          <!-- MEDIA (Dropdown) -->
+          <li class="nav-item dropdown">
+            <a class="nav-link text-white-50 fw-medium px-2 dropdown-toggle text-uppercase text-nowrap" href="#media" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Media
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary">
+              <li><a class="dropdown-item" href="#press-release">Press Release</a></li>
+              <li><a class="dropdown-item" href="#gallery">Gallery</a></li>
+              <li><a class="dropdown-item" href="#publications">Publications</a></li>
+            </ul>
+          </li>
+
+          <!-- CONTACT US -->
+          <li class="nav-item">
+            <a class="nav-link text-white-50 fw-medium px-2 text-uppercase text-nowrap" href="#communication-section">Contact Us</a>
+          </li>
+
+        </ul>
+
+        <!-- Right Action Buttons -->
+        <div class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 pt-3 pt-lg-0 flex-shrink-0">
+          
+          <!-- Search Icon -->
+          <button class="btn btn-link text-white p-1 text-decoration-none" type="button" aria-label="Search" title="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <!-- 4. Centered Hero Content -->
+  <main id="main" class="container my-auto position-relative z-2 py-5 text-center">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+        
+        <!-- Large Centered Headline -->
+        <h1 class="display-2 fw-bold text-white mb-3 tracking-tight">
+          Kumpulan Yayasan Sabah
+        </h1>
+        
+        <!-- Subtitle -->
+        <p class="fs-5 text-white-50 mb-4 mx-auto" style="max-width: 520px;">
+          Established to provide educational opportunities and facilities to Malaysians in Sabah.
+        </p>
+
+        <!-- Centered Pill Action Button -->
+        <div class="d-flex justify-content-center">
+          <a href="#hero-cards-section" class="btn btn-light rounded-pill px-4 py-2 fs-6 fw-semibold text-dark shadow-sm d-inline-flex align-items-center gap-2">
+             Explore More <i class="bi bi-arrow-down-short fs-5"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<!---Card Hero Section-->
+<section id="hero-cards-section" class="py-5 bg-dark text-white position relative overflow-hidden"
+         style="background: linear-gradient(180deg,#0d0f12 0%, #1a1d24 100%);">
+  <div class="container py-5">
+
+    <!--Section Header-->
+    <div class="text-center mb-5">
+      <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-2 rounded-pill mb-2">Kumpulan Yayasan Sabah</span>
+      <h2 class="display-4 fw-bold text-white">Explore Our Portal</h2>
+      <p class="text-white-50">Select a category below to navigate directly to the relevant section.</p>
+    </div>
+
+    <!--6 cards grid (3 columns on desktop, 2 on tablet, 1 on mobile)-->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 align-items-stretch justify-content-center">
+
+      <!--Card 1: Announcements-->
+      <div class="col">
+        <div class="card hero-card-dark border-0 shadow-lg rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-between" 
+             style="background: linear-gradient(145deg, #252830 0%, #181a20 100%); border: 1px solid rgba(255,255,255,0.1) !important">
+            <div>
+             <div class="mb-4 d-flex justify-content-center">
+              <div class="p-3 bg-info bg-opacity-10 rounded-circle text-info">
+                <i class="bi bi-megaphone-fill fs-1"></i>
+              </div>
+             </div>
+             <h3 class="h4 fw-bold text-white mb-2">Announcements</h3>
+             <p class="small text-white-50 mb-4">Explore our organization news and daily updates</p>
+            </div>
+            <a href="#announcements-section" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50">
+              Explore now
+            </a>
+            </div>
+      </div>
+
+      <!--Card 2: Links-->
+      <div class="col">
+        <div class="card hero-card-dark border-0 shadow-lg rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-between" 
+             style="background: linear-gradient(145deg, #252830 0%, #181a20 100%); border: 1px solid rgba(255,255,255,0.1) !important">
+            <div>
+             <div class="mb-4 d-flex justify-content-center">
+              <div class="p-3 bg-info bg-opacity-10 rounded-circle text-info">
+                <i class="bi bi-link-45deg fs-1"></i>
+              </div>
+             </div>
+             <h3 class="h4 fw-bold text-white mb-2">Links</h3>
+             <p class="small text-white-50 mb-4">If you're looking for something on our website, here are some relevant links that can help you.</p>
+            </div>
+            <a href="#links-scroll-section" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50">
+              Explore now
+            </a>
+            </div>
+      </div>
+
+      <!--Card 3: Gallery-->
+      <div class="col">
+        <div class="card hero-card-dark border-0 shadow-lg rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-between" 
+             style="background: linear-gradient(145deg, #252830 0%, #181a20 100%); border: 1px solid rgba(255,255,255,0.1) !important">
+            <div>
+             <div class="mb-4 d-flex justify-content-center">
+              <div class="p-3 bg-info bg-opacity-10 rounded-circle text-info">
+                <i class="bi bi-images fs-1"></i>
+              </div>
+             </div>
+             <h3 class="h4 fw-bold text-white mb-2">Gallery</h3>
+             <p class="small text-white-50 mb-4">View excerpt made by Tun Mustapha, and see more video gallery available</p>
+            </div>
+            <a href="#speech-section" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50">
+              Explore now
+            </a>
+            </div>
+      </div>
+      
+      <!--Card 4: Affiliation -->
+      <div class="col">
+        <div class="card hero-card-dark border-0 shadow-lg rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-between" 
+             style="background: linear-gradient(145deg, #252830 0%, #181a20 100%); border: 1px solid rgba(255,255,255,0.1) !important">
+            <div>
+             <div class="mb-4 d-flex justify-content-center">
+              <div class="p-3 bg-info bg-opacity-10 rounded-circle text-info">
+                <i class="bi bi-people-fill fs-1"></i>
+              </div>
+             </div>
+             <h3 class="h4 fw-bold text-white mb-2">Affiliation</h3>
+             <p class="small text-white-50 mb-4">Explore important links</p>
+            </div>
+            <a href="#related-links-section" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50">
+              Explore now
+            </a>
+            </div>
+      </div>
+
+      <!--Cards 5: Maps-->
+      <div class="col">
+        <div class="card hero-card-dark border-0 shadow-lg rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-between" 
+             style="background: linear-gradient(145deg, #252830 0%, #181a20 100%); border: 1px solid rgba(255,255,255,0.1) !important">
+            <div>
+             <div class="mb-4 d-flex justify-content-center">
+              <div class="p-3 bg-info bg-opacity-10 rounded-circle text-info">
+                <i class="bi bi-geo-alt-fill fs-1"></i>
+              </div>
+             </div>
+             <h3 class="h4 fw-bold text-white mb-2">Maps</h3>
+             <p class="small text-white-50 mb-4">View our location to visit!</p>
+            </div>
+            <a href="#maps-section" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50">
+              Explore now
+            </a>
+            </div>
+      </div>
+
+      <!--Card 6:Communication -->
+     <div class="col">
+        <div class="card hero-card-dark border-0 shadow-lg rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-between" 
+             style="background: linear-gradient(145deg, #252830 0%, #181a20 100%); border: 1px solid rgba(255,255,255,0.1) !important">
+            <div>
+             <div class="mb-4 d-flex justify-content-center">
+              <div class="p-3 bg-info bg-opacity-10 rounded-circle text-info">
+                <i class="bi bi-chat-dots-fill fs-1"></i>
+              </div>
+             </div>
+             <h3 class="h4 fw-bold text-white mb-2">Communication</h3>
+             <p class="small text-white-50 mb-4">Get in touch with us</p>
+            </div>
+            <a href="#communication-section" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50">
+              Explore now
+            </a>
+            </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+    
+<!-- ============================================================ -->
+<!-- ANNOUNCEMENT SECTION (6-Card Hero Theme & Staggered Layout)  -->
+<!-- ============================================================ -->
+<section id="announcements-section" class="py-5 text-white position-relative overflow-hidden" 
+         style="background: linear-gradient(180deg, #0d0f12 0%, #1a1d24 100%);">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      
+      <!-- LEFT COLUMN: Staggered 2x2 Grid -->
+      <div class="col-lg-7">
+        <div class="row g-3">
+          
+          <!-- Column 1 -->
+          <div class="col-6">
+            <div class="d-flex flex-column gap-3">
+              
+              <!-- Announcement Item 1: Berita Kumpulan -->
+              <div class="card announcement-card-dark border-0 shadow-lg rounded-4 overflow-hidden position-relative" 
+                   style="min-height: 280px;">
+                <img src="https://www.yayasansabahgroup.org.my/img/publication/2026/BKYS.VOL.2.2026-1_page-0001.jpg" class="w-100 h-100 object-fit-cover opacity-75 position-absolute top-0 start-0" alt="Berita Kumpulan Vol. 2/2026">
+                <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(180deg, transparent 0%, rgba(13, 15, 18, 0.95) 100%); z-index: 2;">
+                  <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill mb-2 px-3 py-1">Featured</span>
+                  <h3 class="h6 fw-bold text-white mb-0">BERITA KUMPULAN YAYASAN SABAH VOL.2/2026</h3>
+                </div>
+              </div>
+
+              <!-- Announcement Item 2: Integrity Information -->
+              <div class="card announcement-card-dark border-0 shadow-lg rounded-4 p-4 d-flex flex-column justify-content-between" 
+                   style="min-height: 210px;">
+                <div>
+                  <div class="mb-3 d-flex justify-content-start">
+                    <div class="p-2 bg-info bg-opacity-10 rounded-circle text-info">
+                      <i class="bi bi-shield-check fs-5"></i>
+                    </div>
+                  </div>
+                  <h3 class="h6 fw-bold text-white mb-2">INTEGRITY &amp; COMPLAINTS</h3>
+                  <p class="small text-white-50 mb-0">Dedicated channel for reporting staff discipline, corruption, and misconduct.</p>
+                </div>
+                <a href="#integrity" class="btn btn-black bg-black text-white rounded-pill px-3 py-1 small fw-semibold border border-secondary border-opacity-50 mt-3 align-self-start btn-card-action">
+                  Read details
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Column 2 (Offset / Staggered Downward) -->
+          <div class="col-6 mt-4">
+            <div class="d-flex flex-column gap-3">
+              
+              <!-- Announcement Item 3: Annual Report 2025 -->
+              <div class="card announcement-card-dark border-0 shadow-lg rounded-4 overflow-hidden position-relative" 
+                   style="min-height: 240px;">
+                <img src="https://www.yayasansabahgroup.org.my/img/annual/AR 2025 COMBAIN PAGES - FINAL (300626)-1_page-0001.jpg" class="w-100 h-100 object-fit-cover opacity-75 position-absolute top-0 start-0" alt="Annual Report 2025">
+                <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(180deg, transparent 0%, rgba(13, 15, 18, 0.95) 100%); z-index: 2;">
+                  <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 rounded-pill mb-2 px-3 py-1">Publication</span>
+                  <h3 class="h6 fw-bold text-white mb-0">ANNUAL REPORT 2025</h3>
+                </div>
+              </div>
+
+              <!-- Announcement Item 4: Phone Interruption -->
+              <div class="card announcement-card-dark border-0 shadow-lg rounded-4 p-4 d-flex flex-column justify-content-between" 
+                   style="min-height: 240px;">
+                <div>
+                  <div class="mb-3 d-flex justify-content-start">
+                    <div class="p-2 bg-warning bg-opacity-10 rounded-circle text-warning">
+                      <i class="bi bi-telephone-x-fill fs-5"></i>
+                    </div>
+                  </div>
+                  <h3 class="h6 fw-bold text-white mb-2">PHONE INTERRUPTION</h3>
+                  <p class="small text-white-50 mb-0">Telephone console outage affecting Menara Tun Mustapha &amp; Wisma Innoprise.</p>
+                </div>
+                <a href="#phone-notice" class="btn btn-black bg-black text-white rounded-pill px-3 py-1 small fw-semibold border border-secondary border-opacity-50 mt-3 align-self-start btn-card-action">
+                  Read details
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Heading & Action Button -->
+      <div class="col-lg-5 ps-lg-5">
+        <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-2 rounded-pill mb-3">ANNOUNCEMENTS</span>
+        
+        <h2 class="display-4 fw-bold text-white mb-3">
+          Latest News &amp; Updates
+        </h2>
+        
+        <p class="fs-5 text-white-50 mb-4">
+          Stay informed with official notices, press releases, organizational news, and publications from Yayasan Sabah Group.
+        </p>
+
+        <!-- Dark Pill Button -->
+        <a href="#all-announcements" 
+           class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold border border-secondary border-opacity-50 shadow-sm d-inline-flex align-items-center gap-2">
+          Explore all notices <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LINKS HERO SECTION -->
+  <section id="links-scroll-section" class="py-5 position-relative overflow-hidden text-white">
+    <div class="container-fluid py-5">
+      
+      <!-- Section Header -->
+      <div class="text-center mb-5">
+        <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-2 rounded-pill mb-2">Portal Links</span>
+        <h2 class="display-5 fw-bold text-white mb-3">Developing People Towards Progress</h2>
+        <p class="text-white-50">Swipe or scroll to explore our dedicated resources and portals.</p>
+      </div>
+
+      <!-- Scrollable Container -->
+      <div class="scroll-container">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left" aria-label="Scroll left" onclick="scrollLeftBtn()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="scroll-btn right" aria-label="Scroll right" onclick="scrollRightBtn()">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+
+        <!-- Cards Wrapper -->
+        <div class="cards-wrapper" tabindex="0">
+          
+          <!-- Card 1 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-fauxels-3183150.jpg" alt="Staff Corner" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Staff Corner</h3>
+                <p class="small text-white-50 mb-4">Tools and info dedicated for our staff community.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-vojtech-okenka-127162-392018.jpg" alt="Online Forms" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Online Forms</h3>
+                <p class="small text-white-50 mb-4">Submit your required online forms quickly and safely.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-grzegorz-lewandowski-380083092-29707905.jpg" alt="Our Awards" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Our Awards</h3>
+                <p class="small text-white-50 mb-4">Discover our accolades for excellence and service.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-fauxels-3184418.jpg" alt="Our Partners" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Our Partners</h3>
+                <p class="small text-white-50 mb-4">Meet our valued partners working towards progress.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-pixabay-159866.jpg" alt="Portal Tajaan Pendidikan" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Portal Tajaan Pendidikan</h3>
+                <p class="small text-white-50 mb-4">Access education sponsorship resources for Sabah students.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-pixabay-210705.jpg" alt="Loan Repayment" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Loan Repayment</h3>
+                <p class="small text-white-50 mb-4">Manage your education loan repayments efficiently.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 7 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-artempodrez-5716001.jpg" alt="Tender Notice" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Tender / Job Vacancy</h3>
+                <p class="small text-white-50 mb-4">Browse current tenders and job openings.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 8 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-cottonbro-3661193.jpg" alt="E-Preschool" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">E-Preschool Admission</h3>
+                <p class="small text-white-50 mb-4">Enroll children conveniently via the online form.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 9 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-sash2s-16688911.jpg" alt="Sports Facilities" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Sports Facilities</h3>
+                <p class="small text-white-50 mb-4">Discover sports venues and booking info.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 10 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-leeloothefirst-5428830.jpg" alt="FAQ" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">FAQ</h3>
+                <p class="small text-white-50 mb-4">Find answers to common questions about our services.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 11 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-kindelmedia-7054415.jpg" alt="Annual Reports" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Annual Reports</h3>
+                <p class="small text-white-50 mb-4">Read through our yearly performance and achievements.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+          <!-- Card 12 -->
+          <article class="card-horizontal">
+            <img src="https://yayasansabahgroup.org.my/assets/img/temp/pexels-picjumbo-com-55570-210647.jpg" alt="Feedback" />
+            <div class="card-body-custom">
+              <div>
+                <h3 class="h5 fw-bold text-white mb-2">Send Us Feedback</h3>
+                <p class="small text-white-50 mb-4">We value your input. Contact us with your suggestions.</p>
+              </div>
+              <a href="#" class="btn btn-black bg-black text-white rounded-pill px-4 py-2 fw-semibold w-100 border border-secondary border-opacity-50 text-center text-decoration-none">Explore now</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--Gallery Section-->
+    <section id="speech-section" class="speech-section position-relative overflow-hidden py-0">
+    <div class="container-fluid p-0">
+      
+      <!-- MAIN HERO ROW -->
+      <div class="row g-0 align-items-stretch">
+        
+        <!-- LEFT COLUMN: Embedded Video Player -->
+        <div class="col-lg-6 speech-video-col d-flex align-items-center justify-content-center">
+          <video class="speech-video-element" controls poster="https://i.newscdn.net/publisher-c1a3f893382d2b2f8a9aa22a654d9c97/2020/09/7d00cea7df5fca39f49b1a0c4dd141bb.jpg" preload="metadata">
+            <source src="assets/tun-mustapha-speech.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+
+        <!-- RIGHT COLUMN: Speech Quote Details -->
+        <div class="col-lg-6 p-4 p-md-5 p-xl-5 d-flex flex-column justify-content-center">
+          <div class="pe-lg-4 ps-lg-3 py-3">
+            
+            <!-- Title -->
+            <h2 class="speech-title mb-4">
+              Tun Datu Haji<br>
+              Mustapha<br>
+              Speech
+            </h2>
+
+            <!-- Subtitle / Context -->
+            <p class="speech-subtitle mb-4">
+              Proposing a foundation to provide educational opportunities regardless of cultural background or race.
+            </p>
+
+            <!-- Highlighted Quote Box -->
+            <div class="speech-quote-box mb-4">
+              <blockquote class="speech-quote-text">
+                “I propose the foundation be named Sabah Foundation, to provide facilities and opportunities for education and training regardless of cultural background, religion and race.”
+              </blockquote>
+            </div>
+
+            <!-- Attribution -->
+            <div class="text-end mb-4">
+              <p class="speech-attribution mb-0">
+                Tun Datu Haji Mustapha Bin Datu Harun; Mesapol,<br>
+                Sipitang, 9 November 1965
+              </p>
+            </div>
+
+            <!-- SHOW MORE BUTTON -->
+            <div class="pt-2 text-start">
+              <button class="btn btn-speech-more rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2" 
+                      type="button" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target="#moreVideosCollapse" 
+                      aria-expanded="false" 
+                      aria-controls="moreVideosCollapse"
+                      id="toggleVideosBtn">
+                <span>Show More</span> 
+                <i class="bi bi-chevron-down transition-icon" id="toggleIcon"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- EXPANDABLE VIDEO GALLERY CONTAINER -->
+      <div class="collapse" id="moreVideosCollapse">
+        <div class="container py-5 border-top border-white border-opacity-10">
+          
+          <div class="text-center mb-5">
+            <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill mb-2 px-3 py-1">Video Gallery</span>
+            <h3 class="h2 fw-bold text-white mb-2">Ceremonies &amp; Events </h3>
+            <p class="speech-subtitle text-white-50 fs-6">Explore the gallery where spectacular events and ceremonies are held in conjunction with Yayasan Sabah</p>
+          </div>
+
+          <!-- Video Cards Grid -->
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            
+            <!-- Video Card 1 -->
+            <div class="col">
+              <div class="video-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <div class="video-thumb-container">
+                    <img src="https://i3.ytimg.com/vi/sOwM-UqXLLY/hqdefault.jpg" alt="Foundation Establishment Speech">
+                    <div class="play-icon-overlay">
+                      <div class="play-btn-circle">
+                        <i class="bi bi-play-fill ms-1"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-4">
+                    <span class="small text-info fw-bold">Latest</span>
+                    <h4 class="h6 fw-bold text-white mt-1 mb-2">Welcoming Reception Ceremony of Yayasan Sabah </h4>
+                    <p class="small text-white-50 mb-0" style="font-family: system-ui, sans-serif;">Sponsored Student to IJN University College by Director of Yayasan Sabah | Tun Hamdan Theater, Menara Tun Mustapha</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Card 2 -->
+            <div class="col">
+              <div class="video-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <div class="video-thumb-container">
+                    <img src="https://i3.ytimg.com/vi/AahdyfrG4d8/hqdefault.jpg" alt="Educational Vision Address">
+                    <div class="play-icon-overlay">
+                      <div class="play-btn-circle">
+                        <i class="bi bi-play-fill ms-1"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-4">
+                    <span class="small text-info fw-bold">National Day</span>
+                    <h4 class="h6 fw-bold text-white mt-1 mb-2">National Day Sabah Parade</h4>
+                    <p class="small text-white-50 mb-0" style="font-family: system-ui, sans-serif;">National Day being held in Dataran Bandaraya, Kota Kinabalu</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Card 3 -->
+            <div class="col">
+              <div class="video-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <div class="video-thumb-container">
+                    <img src="https://i3.ytimg.com/vi/q8VHY0yBpwQ/hqdefault.jpg" alt="Building Menara Tun Mustapha">
+                    <div class="play-icon-overlay">
+                      <div class="play-btn-circle">
+                        <i class="bi bi-play-fill ms-1"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-4">
+                    <span class="small text-info fw-bold">Ceremony</span>
+                    <h4 class="h6 fw-bold text-white mt-1 mb-2">Prize Presentation Ceremony</h4>
+                    <p class="small text-white-50 mb-0" style="font-family: system-ui, sans-serif;">Winners of the Lucky Draw Programme receives prize held in conjunction with the Yayasan Sabah Education Loan Repayment Campaign</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- AFFILIATIONS SECTION (IMAGE LOGOS ONLY)                      -->
+  <!-- ============================================================ -->
+    <section id="related-links-section" class="related-links-section py-5">
+    <div class="container-fluid px-lg-5">
+      
+      <div class="orbit-wrapper">
+        
+        <!-- Central Cyan Background Glow -->
+        <div class="orbit-bg-glow"></div>
+
+        <!-- Orbital Ring SVG Track -->
+        <svg class="orbit-ring-svg" viewBox="0 0 800 500" preserveAspectRatio="none">
+          <ellipse cx="400" cy="250" rx="350" ry="200" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" stroke-dasharray="6 6"/>
+        </svg>
+
+        <!-- Center Text Section -->
+        <div class="orbit-center-content">
+          <p class="orbit-subtitle mb-2">Yayasan Sabah Group</p>
+          <h2 class="orbit-title mb-3">Affiliations</h2>
+          <p class="orbit-description mb-0">
+            Explore important links to affiliated bodies, initiatives, and partner organizations.
+          </p>
+        </div>
+
+        <!-- Orbit Floating Images -->
+        <div class="mobile-orbit-grid">
+
+          <!-- Node 1 -->
+          <a href="#kelab-pencinta-alam" class="orbit-node node-1" title="Kelab Pencinta Alam Sabah">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/snc.gif" alt="Kelab Pencinta Alam Sabah Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 2 -->
+          <a href="#benta-wawasan" class="orbit-node node-2" title="BENTA Wawasan Sdn. Bhd.">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/benta-wawasan.png" alt="BENTA Wawasan Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 3 -->
+          <a href="#borneo-nature-tours" class="orbit-node node-3" title="Borneo Nature Tours">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/borneo-nature-tours.png" alt="Borneo Nature Tours Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 4 -->
+          <a href="#hap-seng-plantations" class="orbit-node node-4" title="Hap Seng Plantation Holdings">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/hap-seng-plantations.png" alt="Hap Seng Plantation Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 5 -->
+          <a href="#innoprise-plantations" class="orbit-node node-5" title="Innoprise Plantations">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/innoprise-plantations.png" alt="Innoprise Plantations Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 6 -->
+          <a href="#sabah-holidays" class="orbit-node node-6" title="Sabah Holidays">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/sabah-holidays.png" alt="Sabah Holidays Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 7 -->
+          <a href="#yayasan-sabah" class="orbit-node node-7" title="Yayasan Sabah">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/ktys.png" alt="Yayasan Sabah Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 8 -->
+          <a href="#sabah-softwoods" class="orbit-node node-8" title="Sabah Softwoods Berhad">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/softwoods.png" alt="Sabah Softwoods Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 9 -->
+          <a href="#shangri-la" class="orbit-node node-9" title="Shangri-La Tanjung Aru">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/shangrila-aru.png" alt="Shangri-La Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 10 -->
+          <a href="#bioscape" class="orbit-node node-10" title="Bioscape Sdn Bhd">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/ysg-bioscape.png" alt="Bioscape Logo" class="orbit-node-img">
+          </a>
+
+          <!-- Node 11 -->
+          <a href="#tun-mustapha-foundation" class="orbit-node node-11" title="Tun Mustapha Foundation">
+            <img src="https://www.yayasansabahgroup.org.my/img/logo/ucsf.png" alt="Tun Mustapha Foundation Logo" class="orbit-node-img">
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  
+  <!-- ============================================================ -->
+<!-- MAPS HERO SECTION                                            -->
+<!-- ============================================================ -->
+<section id="maps-section" class="maps-hero-section py-5 text-center">
+  <div class="container py-lg-4">
+    
+    <!-- Centered Header Section -->
+    <div class="maps-header-wrapper mb-4">
+      <p class="maps-subtitle mb-2">Location Guide</p>
+      <h2 class="maps-title mb-3">Maps</h2>
+      <p class="maps-description mb-4">
+        Locate the organization on the map to visit.
+      </p>
+      
+      <!-- Centered Action Button -->
+      <div class="mb-2">
+        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn-maps-action">
+          Get Directions
+        </a>
+      </div>
+    </div>
+
+    <!-- Scrollable & Interactive Map Frame -->
+    <div class="maps-frame-container mt-4">
+      <iframe 
+        class="maps-iframe" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3968.040243438258!2d116.10826647587893!3d5.9877477892976295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x323b6992d9d1502f%3A0xb36ef39f29aa4be3!2sMenara%20Tun%20Mustapha%20(Yayasan%20Sabah)!5e0!3m2!1sen!2smy!4v1700000000000!5m2!1sen!2smy" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Organization Location Map">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- COMMUNICATION HERO SECTION                                   -->
+<!-- ============================================================ -->
+<section id="communication-section" class="comm-hero-section py-5">
+  <div class="container py-lg-4">
+    
+    <!-- Centered Header -->
+    <div class="comm-header-wrapper text-center mb-5">
+      <p class="comm-subtitle mb-2">Contact Us</p>
+      <h2 class="comm-title mb-3">Communication</h2>
+      <p class="comm-description mb-0">
+        Get in touch with us.
+      </p>
+    </div>
+
+    <!-- Cards Stack Container -->
+    <div class="comm-content-wrapper d-flex flex-column gap-4">
+
+      <!-- CARD 1: Menara Tun Mustapha (Image Left, Text Right) -->
+      <div class="comm-card">
+        <div class="row g-0 align-items-stretch">
+          <div class="col-lg-5 comm-card-img-col">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Menara Tun Mustapha" class="comm-card-img">
+          </div>
+          <div class="col-lg-7 p-4 p-md-5 d-flex flex-column justify-content-center">
+            <h3 class="comm-card-title mb-3">Menara Tun Mustapha</h3>
+            <div class="comm-card-text">
+              <p class="mb-1">Yayasan Sabah Group</p>
+              <p class="mb-1">Headquarters Complex</p>
+              <p class="mb-1">Likas Bay</p>
+              <p class="mb-1">P.O. Box 11201</p>
+              <p class="mb-1">88813 Kota Kinabalu</p>
+              <p class="mb-0">Sabah, MALAYSIA</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Innoprise Corporation (Text Left, Image Right) -->
+      <div class="comm-card">
+        <div class="row g-0 align-items-stretch flex-lg-row-reverse">
+          <div class="col-lg-5 comm-card-img-col">
+            <img src="https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80" alt="Innoprise Corporation" class="comm-card-img">
+          </div>
+          <div class="col-lg-7 p-4 p-md-5 d-flex flex-column justify-content-center">
+            <h3 class="comm-card-title mb-3">Innoprise Corporation Sdn. Bhd.</h3>
+            <div class="comm-card-text">
+              <p class="mb-1">Yayasan Sabah Group</p>
+              <p class="mb-1">Headquarters Complex</p>
+              <p class="mb-1">Likas Bay</p>
+              <p class="mb-1">P.O. Box 11623</p>
+              <p class="mb-1">88817 Kota Kinabalu</p>
+              <p class="mb-0">Sabah, MALAYSIA</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: General Enquiries (Image Left, Text Right) -->
+      <div class="comm-card">
+        <div class="row g-0 align-items-stretch">
+          <div class="col-lg-5 comm-card-img-col">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="General Enquiries Office" class="comm-card-img">
+          </div>
+          <div class="col-lg-7 p-4 p-md-5 d-flex flex-column justify-content-center">
+            <h3 class="comm-card-title mb-3">General Enquiries</h3>
+            <div class="comm-card-text">
+              <p class="mb-1">+(60) 88 326300 (Tel)</p>
+              <p class="mb-2">+(60) 88 213227 (Fax)</p>
+              <p class="mb-0"><a href="mailto:ysinfo@ysnet.org.my">ysinfo@ysnet.org.my</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4: Detailed Directory Grid -->
+      <div class="comm-card p-4 p-md-5">
+        <div class="row g-4">
+          
+          <!-- Column 1 -->
+          <div class="col-md-4">
+            <div class="mb-4">
+              <h4 class="comm-sub-heading mb-1">Industrial Training</h4>
+              <p class="comm-sub-text mb-0">+(60) 88 255589</p>
+            </div>
+            <div>
+              <h4 class="comm-sub-heading mb-1">Scholarship</h4>
+              <p class="comm-sub-text mb-0">+(60) 12 303 8910</p>
+            </div>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="col-md-4">
+            <div class="mb-4">
+              <h4 class="comm-sub-heading mb-1">Education Loan</h4>
+              <p class="comm-sub-text mb-0">+(60) 12 242 8910</p>
+            </div>
+            <div>
+              <h4 class="comm-sub-heading mb-1">Legal - Education Matters</h4>
+              <p class="comm-sub-text mb-0">+(60) 88 326300</p>
+            </div>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="col-md-4">
+            <div>
+              <h4 class="comm-sub-heading mb-2">Sabah State Education Fund</h4>
+              <p class="comm-sub-text mb-1">+(60) 12 617 9164</p>
+              <p class="comm-sub-text mb-1">+(60) 12 515 9164</p>
+              <p class="comm-sub-text mb-0">+(60) 12 613 9164</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    
+    <!-- Top Emblems / Crest Logos with Strict Uniform Frame -->
+    <div class="footer-logos">
+      <div class="footer-logo-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Coat_of_arms_of_Malaysia.svg/250px-Coat_of_arms_of_Malaysia.svg.png" alt="Coat of Arms Malaysia" class="footer-logo-img">
+      </div>
+      <div class="footer-logo-box">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Coat_of_arms_of_Sabah.svg/330px-Coat_of_arms_of_Sabah.svg.png?download" alt="Coat of Arms Sabah" class="footer-logo-img">
+      </div>
+      <div class="footer-logo-box">
+        <img src="https://yayasansabahgroup.org.my/assets/img/logo-smj.png" alt="Sabah Maju Jaya Logo" class="footer-logo-img">
+      </div>
+    </div>
+
+    <!-- Social Media Icons -->
+    <div class="footer-socials">
+      <!-- Facebook -->
+      <a href="#facebook" class="footer-social-link" title="Facebook" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03.002-2 1.5-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.428 2 9.5 3.657 9.5 6.7v2.8H7v4h2.5V22h4.5v-8.5z"/></svg>
+      </a>
+
+      <!-- Instagram -->
+      <a href="#instagram" class="footer-social-link" title="Instagram" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+
+      <!-- YouTube -->
+      <a href="#youtube" class="footer-social-link" title="YouTube" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+    </div>
+
+    <!-- Centered Copyright & Nav Text -->
+    <div class="footer-info">
+      <p class="footer-copyright">
+        Copyright &copy; 2026 Yayasan Sabah Group, All Right Reserved.
+      </p>
+
+      <div class="footer-nav-links">
+        <a href="#disclaimer">Disclaimer</a>
+        <span class="footer-nav-separator">&middot;</span>
+        <a href="#privacy">Privacy Policy</a>
+        <span class="footer-nav-separator">&middot;</span>
+        <a href="#terms">Terms &amp; Conditions</a>
+        <span class="footer-nav-separator">&middot;</span>
+        <a href="#sitemap">Site Map</a>
+      </div>
+
+      <p class="footer-meta-text mb-0">
+        You are our visitor no. <span id="visitor-count">124,589</span> &middot; Last updated on 10 Sep 2026
+      </p>
+    </div>
+
+  </div>
+</footer>
+    </main>
+
+    <!-- Bootstrap 5.3 JavaScript Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="crossorigin"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroCarousel= document.getElementById('heroCarousel');
+            const currentSlide=document.getElementById('currentSlide');
+
+            if(heroCarousel && currentSlide){
+                heroCarousel.addEventListener('slide.bs.carousel',function(event) {
+                    currentSlide.textContent = event.to + 1;
+                });
+            }
+        });
+    </script>
+
+    <!-- JS Logic for Scroll -->
+    <script>
+      const wrapper = document.querySelector('.cards-wrapper');
+      
+      // Calculates card width dynamically for smooth snapping
+      function scrollLeftBtn() {
+        const cardWidth = document.querySelector('.card-horizontal').offsetWidth + 24; // 24px is the gap (1.5rem)
+        wrapper.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      }
+      
+      function scrollRightBtn() {
+        const cardWidth = document.querySelector('.card-horizontal').offsetWidth + 24;
+        wrapper.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      }
+    </script>
+
+    <!-- ============================================================ -->
+    <!-- JS LOGIC TO TOGGLE BUTTON TEXT & ICON                         -->
+    <!-- ============================================================ -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const collapseElem = document.getElementById('moreVideosCollapse');
+        const toggleBtn = document.getElementById('toggleVideosBtn');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        if (collapseElem && toggleBtn) {
+          collapseElem.addEventListener('show.bs.collapse', function () {
+            toggleBtn.querySelector('span').textContent = 'Show Less';
+            toggleIcon.classList.remove('bi-chevron-down');
+            toggleIcon.classList.add('bi-chevron-up');
+          });
+
+          collapseElem.addEventListener('hide.bs.collapse', function () {
+            toggleBtn.querySelector('span').textContent = 'Show More Videos';
+            toggleIcon.classList.remove('bi-chevron-up');
+            toggleIcon.classList.add('bi-chevron-down');
+          });
+        }
+      });
+    </script>
+</body>
+</html>
