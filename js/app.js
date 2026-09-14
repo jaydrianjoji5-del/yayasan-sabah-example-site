@@ -72,6 +72,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  document.querySelectorAll('.navbar-nav a:not(.dropdown-toggle)').forEach(function (link) {
+    link.addEventListener('click', function () {
+      if (collapseElement && collapseElement.classList.contains('show') && window.bootstrap) {
+        window.bootstrap.Collapse.getOrCreateInstance(collapseElement).hide();
+      }
+    });
+  });
+
   if (cardsWrapper) {
     cardsWrapper.addEventListener('keydown', function (event) {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
